@@ -1,4 +1,7 @@
-# GhostTrack 1.0.0
+# GhostTrack 1.0.1
+
+- targetSdk 升级到 36（Android 16），满足 Google Play 新应用上架要求
+- AGP 升级到 8.9.2
 
 首个正式版：基于 Material You 的 OSINT 小工具（HunxByts/GhostTrack 的非官方安卓移植）。
 

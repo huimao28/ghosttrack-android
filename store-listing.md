@@ -70,4 +70,4 @@ Note: IP lookups require internet. Purity / native-IP are heuristic estimates fo
 
 - `store-assets/store-icon-512.png`：512×512 应用图标
 - `store-assets/feature-graphic-1024x500.png`：1024×500 特性横幅
-- 屏幕截图：需在真机上截取（含各功能页），至少 2 张
+- `store-assets/screenshots/`：4 张真机截图（主页 / IP 追踪 / 号码解析 / 用户名搜索）
