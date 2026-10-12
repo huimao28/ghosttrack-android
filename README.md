@@ -42,3 +42,53 @@ Artifacts 里下载 `app-debug`）。
 - ipwho.is 免费额度为每 IP 每月 1 万次请求，超限会返回错误。
 - 用户名搜索直接请求各站点页面，部分站点有反爬，结果仅供参考。
 - 本工具用于 OSINT 学习与合法的信息收集，请勿用于骚扰、盗号等非法用途。
+
+## 隐私政策
+
+GhostTrack（以下简称"本应用"）尊重并保护用户隐私。
+
+**数据收集**
+
+- 本应用本身不收集、不存储、不分享任何个人数据；不含账号系统、统计分析与广告。
+- 以下功能需要联网，相关请求由第三方服务处理：
+  - IP 追踪：你输入的 IP 地址会发送给 ipwho.is 以查询归属信息；
+  - 本机 IP：通过 ipify 获取出口 IP（ipify 会看到你的 IP，这是该功能的技术原理）；
+  - IP 质量检测：查询的 IP 地址会发送给 ip-api.com；
+  - 用户名搜索：输入的用户名会作为网址的一部分，向 15 个公开网站发起请求；
+  - "在地图中打开"与相关链接：跳转到外部应用或浏览器处理。
+- 号码解析为纯离线功能，不联网。
+- 本应用仅在本地保存语言偏好设置，不上传。
+
+**第三方服务**
+
+上述第三方服务（ipwho.is、ipify、ip-api.com）的隐私政策请参阅其各自官网。
+
+**联系方式**
+
+- 通过 GitHub 仓库提交 Issue：<https://github.com/huimao28/ghosttrack-android>
+
+---
+
+## Privacy Policy
+
+GhostTrack ("the app") respects and protects your privacy.
+
+**Data collection**
+
+- The app itself does not collect, store, or share any personal data. No accounts, analytics, or ads.
+- The following features require internet access; requests are handled by third-party services:
+  - IP Tracker: the IP address you enter is sent to ipwho.is for geolocation lookup;
+  - My IP: your public IP is obtained via ipify (ipify sees your IP — that is how the feature works);
+  - IP Quality: the queried IP address is sent to ip-api.com;
+  - Username Search: the username you enter is sent as part of URLs to 15 public websites;
+  - "Open in Maps" and external links: handled by external apps or the browser.
+- Phone Lookup works fully offline.
+- The app only stores your language preference locally; nothing is uploaded.
+
+**Third-party services**
+
+Please refer to the respective privacy policies of ipwho.is, ipify, and ip-api.com.
+
+**Contact**
+
+- Open an issue at <https://github.com/huimao28/ghosttrack-android>
