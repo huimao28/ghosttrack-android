@@ -11,6 +11,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -27,6 +28,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.huimao.ghosttrack.data.IpLookup
+import com.huimao.ghosttrack.data.IpQuality
 import com.huimao.ghosttrack.data.IpWhoIsResponse
 import com.huimao.ghosttrack.ui.components.ErrorCard
 import com.huimao.ghosttrack.ui.components.InfoRow
@@ -43,6 +45,9 @@ data class IpUiState(
     val loading: Boolean = false,
     val error: String? = null,
     val result: IpWhoIsResponse? = null,
+    val quality: IpQuality? = null,
+    val qualityLoading: Boolean = false,
+    val qualityError: String? = null,
 )
 
 class IpViewModel : ViewModel() {
@@ -61,10 +66,13 @@ class IpViewModel : ViewModel() {
         uiState = IpUiState(loading = true)
         scope.launch {
             val result = withContext(Dispatchers.IO) { lookup.lookup(ip) }
-            uiState = IpUiState(
-                result = result.getOrNull(),
-                error = result.exceptionOrNull()?.let { "查询失败：${it.message}" },
-            )
+            val info = result.getOrNull()
+            if (info == null) {
+                uiState = IpUiState(error = "查询失败：${result.exceptionOrNull()?.message}")
+                return@launch
+            }
+            uiState = IpUiState(result = info, qualityLoading = true)
+            loadQuality(info.ip.ifBlank { ip })
         }
     }
 
@@ -78,9 +86,23 @@ class IpViewModel : ViewModel() {
                 return@launch
             }
             val result = withContext(Dispatchers.IO) { lookup.lookup(ip) }
-            uiState = IpUiState(
-                result = result.getOrNull(),
-                error = result.exceptionOrNull()?.let { "查询失败：${it.message}" },
+            val info = result.getOrNull()
+            if (info == null) {
+                uiState = IpUiState(error = "查询失败：${result.exceptionOrNull()?.message}")
+                return@launch
+            }
+            uiState = IpUiState(result = info, qualityLoading = true)
+            loadQuality(info.ip.ifBlank { ip })
+        }
+    }
+
+    private fun loadQuality(ip: String) {
+        scope.launch {
+            val q = withContext(Dispatchers.IO) { lookup.quality(ip) }
+            uiState = uiState.copy(
+                qualityLoading = false,
+                quality = q.getOrNull(),
+                qualityError = q.exceptionOrNull()?.let { "质量检测失败：${it.message}" },
             )
         }
     }
@@ -144,6 +166,7 @@ fun IpScreen(
             }
             state.result?.let { info ->
                 item { IpResultCard(info) { url -> context.openUrl(url) } }
+                item { IpQualityCard(state) }
             }
         }
     }
@@ -199,6 +222,41 @@ private fun IpResultCard(info: IpWhoIsResponse, onOpenUrl: (String) -> Unit) {
                     .fillMaxWidth()
                     .padding(top = 8.dp),
             ) { Text("在地图中打开") }
+        }
+    }
+}
+
+@Composable
+private fun IpQualityCard(state: IpUiState) {
+    SectionCard(title = "IP 质量检测") {
+        when {
+            state.qualityLoading -> {
+                LinearProgressIndicator(
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 8.dp),
+                )
+            }
+            state.qualityError != null -> {
+                Text(
+                    text = state.qualityError,
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.error,
+                )
+            }
+            state.quality != null -> {
+                val q = state.quality
+                InfoRow("网络类型", q.networkTypeLabel())
+                InfoRow("代理/VPN", if (q.proxy) "是（疑似中转）" else "否")
+                InfoRow("原生 IP", if (q.isNative()) "是（估算）" else "否（估算）")
+                InfoRow("纯净度", "${q.purityScore()} 分 · ${q.purityGrade()}（估算）")
+                Text(
+                    text = "网络类型 / 原生 / 纯净度均为基于公开标记的估算，仅供参考；数据源 ip-api.com。",
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 8.dp),
+                )
+            }
         }
     }
 }

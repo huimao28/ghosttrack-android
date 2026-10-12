@@ -1,5 +1,6 @@
 package com.huimao.ghosttrack.ui.username
 
+import android.os.SystemClock
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -73,20 +74,25 @@ class UsernameViewModel : ViewModel() {
         if (name.isEmpty() || uiState.searching) return
         uiState = UsernameUiState(searching = true, searchedName = name)
         scope.launch {
+            // 结果批量刷新（最多每 400ms 一次），避免 15 次连续重组造成卡顿
+            val collected = mutableListOf<SiteResult>()
+            var lastEmit = 0L
+            suspend fun emit() {
+                val sorted = collected.sortedBy { siteOrder[it.site.name] ?: Int.MAX_VALUE }
+                uiState = uiState.copy(done = collected.size, results = sorted)
+            }
             withContext(Dispatchers.IO) {
                 checker.checkAll(name) { result ->
-                    // 切回主线程更新 Compose 状态
-                    scope.launch {
-                        val updated = (uiState.results + result)
-                            .sortedBy { siteOrder[it.site.name] ?: Int.MAX_VALUE }
-                        uiState = uiState.copy(
-                            done = uiState.done + 1,
-                            results = updated,
-                        )
+                    collected.add(result)
+                    val now = SystemClock.uptimeMillis()
+                    if (now - lastEmit >= 400 || collected.size == USERNAME_SITES.size) {
+                        lastEmit = now
+                        scope.launch { emit() }
                     }
                 }
             }
-            uiState = uiState.copy(searching = false)
+            val sorted = collected.sortedBy { siteOrder[it.site.name] ?: Int.MAX_VALUE }
+            uiState = uiState.copy(searching = false, done = collected.size, results = sorted)
         }
     }
 
@@ -148,7 +154,7 @@ fun UsernameScreen(
                     value = input,
                     onValueChange = { input = it },
                     label = { Text("用户名") },
-                    placeholder = { Text("如 huimao28") },
+                    placeholder = { Text("如 johndoe123") },
                     singleLine = true,
                     modifier = Modifier.weight(1f),
                 )

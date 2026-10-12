@@ -4,6 +4,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
+import org.junit.Assert.fail
 import org.junit.Test
 
 class IpLookupTest {
@@ -50,6 +51,47 @@ class IpLookupTest {
         assertNull(info.latitude)
         assertNull(info.connection)
         assertNull(info.timezone)
+    }
+
+    @Test
+    fun `parses ip-api quality response`() {
+        val body = """{"status":"success","query":"8.8.8.8","isp":"Google LLC","org":"Google Public DNS","as":"AS15169 Google LLC","mobile":false,"proxy":true,"hosting":true}"""
+        val q = lookup.parseQuality(body)
+        assertTrue(q.hosting)
+        assertTrue(q.proxy)
+        assertFalse(q.mobile)
+        assertEquals("机房 / 数据中心", q.networkTypeLabel())
+        assertFalse(q.isNative())
+        assertEquals(20, q.purityScore())
+        assertEquals("较差", q.purityGrade())
+    }
+
+    @Test
+    fun `residential ip scores high`() {
+        val q = IpQuality(proxy = false, hosting = false, mobile = false)
+        assertEquals("家庭宽带（估算）", q.networkTypeLabel())
+        assertTrue(q.isNative())
+        assertEquals(100, q.purityScore())
+        assertEquals("优秀", q.purityGrade())
+    }
+
+    @Test
+    fun `mobile ip is native but slightly less pure`() {
+        val q = IpQuality(proxy = false, hosting = false, mobile = true)
+        assertEquals("移动网络", q.networkTypeLabel())
+        assertTrue(q.isNative())
+        assertEquals(90, q.purityScore())
+        assertEquals("优秀", q.purityGrade())
+    }
+
+    @Test
+    fun `quality failure response throws`() {
+        try {
+            lookup.parseQuality("""{"status":"fail","message":"invalid query"}""")
+            fail("expected IOException")
+        } catch (e: java.io.IOException) {
+            assertEquals("invalid query", e.message)
+        }
     }
 
     companion object {

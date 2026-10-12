@@ -65,6 +65,54 @@ data class TimezoneInfo(
 @Serializable
 private data class MyIpResponse(val ip: String = "")
 
+/**
+ * IP 质量检测结果（数据源：ip-api.com 免费接口，HTTP）。
+ *
+ * - hosting=true → 机房/数据中心 IP
+ * - proxy=true → 疑似代理 / VPN / 出口中转
+ * - mobile=true → 移动网络
+ * - 原生 IP / 纯净度均为基于上述标记的本地启发式估算，仅供参考，
+ *   不是专业风控评分。
+ */
+@Serializable
+data class IpApiQualityResponse(
+    val status: String = "",
+    val message: String? = null,
+    val query: String = "",
+    val proxy: Boolean = false,
+    val hosting: Boolean = false,
+    val mobile: Boolean = false,
+)
+
+data class IpQuality(
+    val proxy: Boolean,
+    val hosting: Boolean,
+    val mobile: Boolean,
+) {
+    /** 网络类型：机房 / 移动网络 / 家庭宽带（估算） */
+    fun networkTypeLabel(): String = when {
+        hosting -> "机房 / 数据中心"
+        mobile -> "移动网络"
+        else -> "家庭宽带（估算）"
+    }
+
+    /** 原生 IP（估算）：非机房且非代理 */
+    fun isNative(): Boolean = !hosting && !proxy
+
+    /** 纯净度估算分：100 起步，机房 -50，代理 -30，移动 -10 */
+    fun purityScore(): Int = (100 -
+        (if (hosting) 50 else 0) -
+        (if (proxy) 30 else 0) -
+        (if (mobile) 10 else 0)).coerceAtLeast(0)
+
+    fun purityGrade(): String = when (purityScore()) {
+        in 90..100 -> "优秀"
+        in 70..89 -> "良好"
+        in 40..69 -> "一般"
+        else -> "较差"
+    }
+}
+
 class IpLookup(private val client: OkHttpClient = defaultClient()) {
 
     private val json = Json {
@@ -104,6 +152,28 @@ class IpLookup(private val client: OkHttpClient = defaultClient()) {
     /** 纯解析逻辑，供单元测试使用。 */
     fun parseResponse(body: String): IpWhoIsResponse =
         json.decodeFromString(IpWhoIsResponse.serializer(), body)
+
+    /**
+     * IP 质量检测：机房 / 代理 / 移动网络标记。
+     * 注意 ip-api.com 免费档仅支持 HTTP（仓库 manifest 已开明文流量）。
+     */
+    fun quality(ip: String): Result<IpQuality> = runCatching {
+        val request = Request.Builder()
+            .url("http://ip-api.com/json/${ip.trim()}?fields=status,message,query,proxy,hosting,mobile")
+            .get()
+            .build()
+        client.newCall(request).execute().use { response ->
+            if (!response.isSuccessful) throw IOException("HTTP ${response.code}")
+            parseQuality(response.body?.string().orEmpty())
+        }
+    }
+
+    /** 纯解析逻辑，供单元测试使用。 */
+    fun parseQuality(body: String): IpQuality {
+        val q = json.decodeFromString(IpApiQualityResponse.serializer(), body)
+        if (q.status != "success") throw IOException(q.message ?: "质量检测失败")
+        return IpQuality(proxy = q.proxy, hosting = q.hosting, mobile = q.mobile)
+    }
 
     companion object {
         fun defaultClient(): OkHttpClient = OkHttpClient.Builder()

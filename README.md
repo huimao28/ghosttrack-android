@@ -11,6 +11,7 @@
 | 功能 | 说明 | 数据源 |
 |---|---|---|
 | IP 追踪 | 查询任意 IP 的归属地、运营商、ASN、时区 | [ipwho.is](https://ipwho.is)（免费，无需 key） |
+| IP 质量检测 | 机房 / 代理 / 移动网络标记、原生 IP 与纯净度估算 | [ip-api.com](https://ip-api.com)（免费，无需 key；仅支持 HTTP） |
 | 本机 IP | 一键查看当前出口 IP 并解析归属 | [ipify](https://www.ipify.org) + ipwho.is |
 | 号码解析 | 号码有效性、类型、运营商、归属地、各种格式 | Google libphonenumber（纯离线） |
 | 用户名搜索 | 在 15 个站点并发搜索用户名是否存在 | 各站点公开个人主页 |
