@@ -5,7 +5,7 @@ import com.google.i18n.phonenumbers.PhoneNumberToCarrierMapper
 import com.google.i18n.phonenumbers.PhoneNumberToTimeZonesMapper
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber
-import com.google.i18n.phonenumbers.geocoder.PhoneNumberOfflineGeocoder
+import com.google.i18n.phonenumbers.geocoding.PhoneNumberOfflineGeocoder
 import java.util.Locale
 
 /**

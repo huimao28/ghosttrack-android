@@ -50,6 +50,8 @@ dependencies {
     implementation(libs.kotlinx.coroutines.android)
     implementation(libs.okhttp)
     implementation(libs.libphonenumber)
+    implementation(libs.libphonenumber.carrier)
+    implementation(libs.libphonenumber.geocoder)
 
     testImplementation(libs.junit)
 }
