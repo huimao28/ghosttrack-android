@@ -1,5 +1,6 @@
 package com.huimao.ghosttrack.ui.phone
 
+import android.os.SystemClock
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.PaddingValues
@@ -33,9 +34,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.huimao.ghosttrack.R
 import com.huimao.ghosttrack.data.PhoneInfo
 import com.huimao.ghosttrack.data.PhoneLookup
 import com.huimao.ghosttrack.ui.components.ErrorCard
@@ -48,29 +51,72 @@ import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
-/** 无国家码时可用的默认归属地。 */
+/** 无国家码时可用的默认归属地（显示名走多语言资源）。 */
 private val REGIONS = listOf(
-    "CN" to "中国大陆",
-    "HK" to "香港",
-    "TW" to "台湾",
-    "MO" to "澳门",
-    "US" to "美国",
-    "CA" to "加拿大",
-    "GB" to "英国",
-    "DE" to "德国",
-    "FR" to "法国",
-    "JP" to "日本",
-    "KR" to "韩国",
-    "SG" to "新加坡",
-    "MY" to "马来西亚",
-    "TH" to "泰国",
-    "AU" to "澳大利亚",
-    "ID" to "印尼",
+    "CN", "HK", "TW", "MO",
+    "US", "CA", "GB", "DE", "FR",
+    "JP", "KR", "SG", "MY", "TH", "AU", "ID",
 )
+
+@Composable
+private fun regionName(code: String): String = stringResource(
+    when (code) {
+        "CN" -> R.string.region_cn
+        "HK" -> R.string.region_hk
+        "TW" -> R.string.region_tw
+        "MO" -> R.string.region_mo
+        "US" -> R.string.region_us
+        "CA" -> R.string.region_ca
+        "GB" -> R.string.region_gb
+        "DE" -> R.string.region_de
+        "FR" -> R.string.region_fr
+        "JP" -> R.string.region_jp
+        "KR" -> R.string.region_kr
+        "SG" -> R.string.region_sg
+        "MY" -> R.string.region_my
+        "TH" -> R.string.region_th
+        "AU" -> R.string.region_au
+        "ID" -> R.string.region_id
+        else -> R.string.unknown
+    },
+)
+
+@Composable
+private fun phoneTypeLabel(typeKey: String): String = stringResource(
+    when (typeKey) {
+        "mobile" -> R.string.phone_type_mobile
+        "fixed_line" -> R.string.phone_type_fixed_line
+        "fixed_line_or_mobile" -> R.string.phone_type_fixed_line_or_mobile
+        "toll_free" -> R.string.phone_type_toll_free
+        "premium_rate" -> R.string.phone_type_premium_rate
+        "shared_cost" -> R.string.phone_type_shared_cost
+        "voip" -> R.string.phone_type_voip
+        "personal_number" -> R.string.phone_type_personal_number
+        "pager" -> R.string.phone_type_pager
+        "uan" -> R.string.phone_type_uan
+        "voicemail" -> R.string.phone_type_voicemail
+        else -> R.string.phone_type_unknown
+    },
+)
+
+sealed interface PhoneError {
+    data object EmptyInput : PhoneError
+    data class Failed(val raw: String) : PhoneError
+}
+
+@Composable
+private fun PhoneError.text(): String = when (this) {
+    PhoneError.EmptyInput -> stringResource(R.string.phone_enter)
+    is PhoneError.Failed -> if (raw.startsWith("unparsable:")) {
+        stringResource(R.string.phone_unparsable, raw.removePrefix("unparsable:"))
+    } else {
+        stringResource(R.string.phone_failed, raw)
+    }
+}
 
 data class PhoneUiState(
     val loading: Boolean = false,
-    val error: String? = null,
+    val error: PhoneError? = null,
     val result: PhoneInfo? = null,
 )
 
@@ -83,7 +129,7 @@ class PhoneViewModel : ViewModel() {
     fun analyze(input: String, region: String) {
         val raw = input.trim()
         if (raw.isEmpty()) {
-            uiState = uiState.copy(error = "请输入电话号码")
+            uiState = uiState.copy(error = PhoneError.EmptyInput)
             return
         }
         uiState = PhoneUiState(loading = true)
@@ -91,7 +137,9 @@ class PhoneViewModel : ViewModel() {
             val result = withContext(Dispatchers.IO) { PhoneLookup.analyze(raw, region) }
             uiState = PhoneUiState(
                 result = result.getOrNull(),
-                error = result.exceptionOrNull()?.let { "解析失败：${it.message}" },
+                error = result.exceptionOrNull()?.let {
+                    PhoneError.Failed(it.message ?: "?")
+                },
             )
         }
     }
@@ -112,17 +160,16 @@ fun PhoneScreen(
     var region by remember { mutableStateOf("CN") }
     var showPicker by remember { mutableStateOf(false) }
     val state = vm.uiState
-    val regionName = REGIONS.firstOrNull { it.first == region }?.second ?: region
 
     if (showPicker) {
         AlertDialog(
             onDismissRequest = { showPicker = false },
-            title = { Text("默认归属地") },
+            title = { Text(stringResource(R.string.phone_region_title)) },
             text = {
                 LazyColumn(modifier = Modifier.heightIn(max = 400.dp)) {
-                    items(REGIONS) { (code, name) ->
+                    items(REGIONS) { code ->
                         ListItem(
-                            headlineContent = { Text("$name ($code)") },
+                            headlineContent = { Text("${regionName(code)} ($code)") },
                             modifier = Modifier.clickable {
                                 region = code
                                 showPicker = false
@@ -132,13 +179,15 @@ fun PhoneScreen(
                 }
             },
             confirmButton = {
-                TextButton(onClick = { showPicker = false }) { Text("取消") }
+                TextButton(onClick = { showPicker = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
             },
         )
     }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("号码解析") }) },
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.phone_title)) }) },
         modifier = modifier,
     ) { padding ->
         LazyColumn(
@@ -152,8 +201,8 @@ fun PhoneScreen(
                 OutlinedTextField(
                     value = input,
                     onValueChange = { input = it },
-                    label = { Text("电话号码") },
-                    placeholder = { Text("如 +8613800138000 或 13800138000") },
+                    label = { Text(stringResource(R.string.phone_hint)) },
+                    placeholder = { Text(stringResource(R.string.phone_placeholder)) },
                     singleLine = true,
                     modifier = Modifier.fillMaxWidth(),
                 )
@@ -164,13 +213,17 @@ fun PhoneScreen(
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
                     Text(
-                        text = "默认归属地：$regionName ($region)",
+                        text = stringResource(
+                            R.string.phone_default_region,
+                            regionName(region),
+                            region,
+                        ),
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         modifier = Modifier.weight(1f),
                     )
                     TextButton(onClick = { showPicker = true }) {
-                        Text("更换")
+                        Text(stringResource(R.string.phone_change))
                         Icon(Icons.Filled.ArrowDropDown, contentDescription = null)
                     }
                 }
@@ -180,20 +233,20 @@ fun PhoneScreen(
                     onClick = { vm.analyze(input, region) },
                     enabled = !state.loading,
                     modifier = Modifier.fillMaxWidth(),
-                ) { Text("解析") }
+                ) { Text(stringResource(R.string.phone_analyze)) }
             }
             if (state.loading) {
                 item { LinearProgressIndicator(Modifier.fillMaxWidth()) }
             }
             state.error?.let { error ->
-                item { ErrorCard(error) }
+                item { ErrorCard(error.text()) }
             }
             state.result?.let { info ->
                 item { PhoneResultCard(info) }
             }
             item {
                 Text(
-                    text = "基于 Google libphonenumber 离线解析，无需网络，结果仅供参考。",
+                    text = stringResource(R.string.phone_note),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -204,7 +257,7 @@ fun PhoneScreen(
 
 @Composable
 private fun PhoneResultCard(info: PhoneInfo) {
-    SectionCard(title = "解析结果") {
+    SectionCard(title = stringResource(R.string.phone_result)) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             val valid = info.valid
             Icon(
@@ -214,23 +267,31 @@ private fun PhoneResultCard(info: PhoneInfo) {
                 else MaterialTheme.colorScheme.error,
             )
             Text(
-                text = if (valid) " 有效号码" else " 无效号码",
+                text = " " + stringResource(
+                    if (valid) R.string.phone_valid else R.string.phone_invalid,
+                ),
                 style = MaterialTheme.typography.titleMedium,
                 color = if (valid) MaterialTheme.colorScheme.primary
                 else MaterialTheme.colorScheme.error,
             )
         }
-        InfoRow("号码类型", info.typeLabel)
-        InfoRow("运营商", info.carrier)
-        InfoRow("归属地", info.location)
-        InfoRow("国家/地区", info.regionCode)
+        InfoRow(stringResource(R.string.phone_type), phoneTypeLabel(info.typeKey))
+        InfoRow(stringResource(R.string.phone_carrier), info.carrier)
+        InfoRow(stringResource(R.string.phone_location), info.location)
+        InfoRow(stringResource(R.string.phone_region), info.regionCode)
         if (info.timezones.isNotEmpty()) {
-            InfoRow("时区", info.timezones.joinToString(", "))
+            InfoRow(
+                stringResource(R.string.phone_timezone),
+                info.timezones.joinToString(", "),
+            )
         }
         InfoRow("E.164", info.e164, copyable = true)
-        InfoRow("国际格式", info.international, copyable = true)
-        InfoRow("国内格式", info.national, copyable = true)
-        InfoRow("国家码", "+${info.countryCode}")
-        InfoRow("本地号码", info.nationalNumber.toString())
+        InfoRow(stringResource(R.string.phone_intl), info.international, copyable = true)
+        InfoRow(stringResource(R.string.phone_national), info.national, copyable = true)
+        InfoRow(stringResource(R.string.phone_country_code), "+${info.countryCode}")
+        InfoRow(
+            stringResource(R.string.phone_national_number),
+            info.nationalNumber.toString(),
+        )
     }
 }

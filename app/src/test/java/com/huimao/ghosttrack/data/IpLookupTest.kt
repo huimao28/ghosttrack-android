@@ -60,28 +60,25 @@ class IpLookupTest {
         assertTrue(q.hosting)
         assertTrue(q.proxy)
         assertFalse(q.mobile)
-        assertEquals("机房 / 数据中心", q.networkTypeLabel())
+        assertEquals(NetworkType.DATACENTER, q.networkType())
         assertFalse(q.isNative())
         assertEquals(20, q.purityScore())
-        assertEquals("较差", q.purityGrade())
     }
 
     @Test
     fun `residential ip scores high`() {
         val q = IpQuality(proxy = false, hosting = false, mobile = false)
-        assertEquals("家庭宽带（估算）", q.networkTypeLabel())
+        assertEquals(NetworkType.RESIDENTIAL, q.networkType())
         assertTrue(q.isNative())
         assertEquals(100, q.purityScore())
-        assertEquals("优秀", q.purityGrade())
     }
 
     @Test
     fun `mobile ip is native but slightly less pure`() {
         val q = IpQuality(proxy = false, hosting = false, mobile = true)
-        assertEquals("移动网络", q.networkTypeLabel())
+        assertEquals(NetworkType.MOBILE, q.networkType())
         assertTrue(q.isNative())
         assertEquals(90, q.purityScore())
-        assertEquals("优秀", q.purityGrade())
     }
 
     @Test

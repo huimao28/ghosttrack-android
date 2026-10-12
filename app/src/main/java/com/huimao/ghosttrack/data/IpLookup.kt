@@ -84,16 +84,18 @@ data class IpApiQualityResponse(
     val mobile: Boolean = false,
 )
 
+enum class NetworkType { DATACENTER, MOBILE, RESIDENTIAL }
+
 data class IpQuality(
     val proxy: Boolean,
     val hosting: Boolean,
     val mobile: Boolean,
 ) {
-    /** 网络类型：机房 / 移动网络 / 家庭宽带（估算） */
-    fun networkTypeLabel(): String = when {
-        hosting -> "机房 / 数据中心"
-        mobile -> "移动网络"
-        else -> "家庭宽带（估算）"
+    /** 网络类型（UI 层映射到多语言文案） */
+    fun networkType(): NetworkType = when {
+        hosting -> NetworkType.DATACENTER
+        mobile -> NetworkType.MOBILE
+        else -> NetworkType.RESIDENTIAL
     }
 
     /** 原生 IP（估算）：非机房且非代理 */
@@ -104,13 +106,6 @@ data class IpQuality(
         (if (hosting) 50 else 0) -
         (if (proxy) 30 else 0) -
         (if (mobile) 10 else 0)).coerceAtLeast(0)
-
-    fun purityGrade(): String = when (purityScore()) {
-        in 90..100 -> "优秀"
-        in 70..89 -> "良好"
-        in 40..69 -> "一般"
-        else -> "较差"
-    }
 }
 
 class IpLookup(private val client: OkHttpClient = defaultClient()) {

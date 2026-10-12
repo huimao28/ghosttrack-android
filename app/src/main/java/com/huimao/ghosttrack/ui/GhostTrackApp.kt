@@ -3,6 +3,7 @@ package com.huimao.ghosttrack.ui
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.PersonSearch
 import androidx.compose.material.icons.filled.Smartphone
@@ -18,16 +19,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import com.huimao.ghosttrack.R
+import com.huimao.ghosttrack.ui.about.AboutScreen
 import com.huimao.ghosttrack.ui.home.HomeScreen
 import com.huimao.ghosttrack.ui.ip.IpScreen
 import com.huimao.ghosttrack.ui.phone.PhoneScreen
 import com.huimao.ghosttrack.ui.username.UsernameScreen
 
-enum class Dest(val title: String, val icon: ImageVector) {
-    Home("主页", Icons.Filled.Home),
-    Ip("IP 追踪", Icons.Filled.LocationOn),
-    Phone("号码解析", Icons.Filled.Smartphone),
-    Username("用户名", Icons.Filled.PersonSearch),
+enum class Dest(val titleRes: Int, val icon: ImageVector) {
+    Home(R.string.nav_home, Icons.Filled.Home),
+    Ip(R.string.nav_ip, Icons.Filled.LocationOn),
+    Phone(R.string.nav_phone, Icons.Filled.Smartphone),
+    Username(R.string.nav_username, Icons.Filled.PersonSearch),
+    About(R.string.nav_about, Icons.Filled.Info),
 }
 
 @Composable
@@ -37,11 +42,12 @@ fun GhostTrackApp() {
         bottomBar = {
             NavigationBar {
                 Dest.entries.forEach { d ->
+                    val title = stringResource(d.titleRes)
                     NavigationBarItem(
                         selected = dest == d,
                         onClick = { dest = d },
-                        icon = { Icon(d.icon, contentDescription = d.title) },
-                        label = { Text(d.title) },
+                        icon = { Icon(d.icon, contentDescription = title) },
+                        label = { Text(title) },
                     )
                 }
             }
@@ -58,6 +64,7 @@ fun GhostTrackApp() {
             Dest.Ip -> IpScreen(modifier = modifier)
             Dest.Phone -> PhoneScreen(modifier = modifier)
             Dest.Username -> UsernameScreen(modifier = modifier)
+            Dest.About -> AboutScreen(modifier = modifier)
         }
     }
 }

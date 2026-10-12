@@ -36,10 +36,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.huimao.ghosttrack.R
 import com.huimao.ghosttrack.data.username.CheckStatus
 import com.huimao.ghosttrack.data.username.SiteResult
 import com.huimao.ghosttrack.data.username.USERNAME_SITES
@@ -74,7 +76,7 @@ class UsernameViewModel : ViewModel() {
         if (name.isEmpty() || uiState.searching) return
         uiState = UsernameUiState(searching = true, searchedName = name)
         scope.launch {
-            // 结果批量刷新（最多每 400ms 一次），避免 15 次连续重组造成卡顿
+            // 结果批量刷新（最多每 400ms 一次），避免连续重组造成卡顿
             val collected = mutableListOf<SiteResult>()
             var lastEmit = 0L
             suspend fun emit() {
@@ -102,24 +104,24 @@ class UsernameViewModel : ViewModel() {
     }
 }
 
-private data class StatusStyle(val icon: ImageVector, val color: Color, val label: String)
+private data class StatusStyle(val icon: ImageVector, val color: Color, val labelRes: Int)
 
 @Composable
 private fun statusStyle(status: CheckStatus): StatusStyle = when (status) {
     CheckStatus.FOUND -> StatusStyle(
         Icons.Filled.CheckCircle,
         MaterialTheme.colorScheme.primary,
-        "存在",
+        R.string.status_found,
     )
     CheckStatus.NOT_FOUND -> StatusStyle(
         Icons.Filled.Cancel,
         MaterialTheme.colorScheme.onSurfaceVariant,
-        "不存在",
+        R.string.status_not_found,
     )
     CheckStatus.UNKNOWN -> StatusStyle(
         Icons.Filled.Help,
         MaterialTheme.colorScheme.tertiary,
-        "未知",
+        R.string.status_unknown,
     )
 }
 
@@ -135,7 +137,7 @@ fun UsernameScreen(
     val foundCount = state.results.count { it.status == CheckStatus.FOUND }
 
     Scaffold(
-        topBar = { TopAppBar(title = { Text("用户名搜索") }) },
+        topBar = { TopAppBar(title = { Text(stringResource(R.string.username_title)) }) },
         modifier = modifier,
     ) { padding ->
         Column(
@@ -153,8 +155,8 @@ fun UsernameScreen(
                 OutlinedTextField(
                     value = input,
                     onValueChange = { input = it },
-                    label = { Text("用户名") },
-                    placeholder = { Text("如 johndoe123") },
+                    label = { Text(stringResource(R.string.username_hint)) },
+                    placeholder = { Text(stringResource(R.string.username_placeholder)) },
                     singleLine = true,
                     modifier = Modifier.weight(1f),
                 )
@@ -163,7 +165,7 @@ fun UsernameScreen(
                     enabled = !state.searching,
                 ) {
                     Icon(Icons.Filled.Search, contentDescription = null)
-                    Text("搜索")
+                    Text(stringResource(R.string.username_search))
                 }
             }
 
@@ -183,7 +185,7 @@ fun UsernameScreen(
                         text = if (state.searching) {
                             "${state.done}/${state.total}"
                         } else {
-                            "找到 $foundCount 个"
+                            stringResource(R.string.username_found, foundCount)
                         },
                         style = MaterialTheme.typography.bodyMedium,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -197,6 +199,7 @@ fun UsernameScreen(
             ) {
                 items(state.results, key = { it.site.name }) { result ->
                     val style = statusStyle(result.status)
+                    val label = stringResource(style.labelRes)
                     ListItem(
                         headlineContent = { Text(result.site.name) },
                         supportingContent = {
@@ -208,11 +211,11 @@ fun UsernameScreen(
                             )
                         },
                         leadingContent = {
-                            Icon(style.icon, contentDescription = style.label, tint = style.color)
+                            Icon(style.icon, contentDescription = label, tint = style.color)
                         },
                         trailingContent = {
                             Text(
-                                style.label,
+                                label,
                                 style = MaterialTheme.typography.labelLarge,
                                 color = style.color,
                             )
@@ -224,8 +227,7 @@ fun UsernameScreen(
 
             if (!state.searching && state.results.isEmpty()) {
                 Text(
-                    text = "在 ${USERNAME_SITES.size} 个站点并发检查用户名是否存在。\n" +
-                        "「未知」表示该站点拦截了自动请求（如反爬），可点进链接手动确认。",
+                    text = stringResource(R.string.username_empty, USERNAME_SITES.size),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                     modifier = Modifier.padding(16.dp),

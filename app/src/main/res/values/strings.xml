@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- 底部导航 -->
+    <string name="nav_home">主页</string>
+    <string name="nav_ip">IP 追踪</string>
+    <string name="nav_phone">号码解析</string>
+    <string name="nav_username">用户名</string>
+    <string name="nav_about">关于</string>
+
+    <!-- 主页 -->
+    <string name="home_subtitle">基于 Material You 的 OSINT 小工具</string>
+    <string name="feat_ip_title">IP 追踪</string>
+    <string name="feat_ip_desc">查询任意 IP 的归属地、运营商、ASN 与时区</string>
+    <string name="feat_myip_title">本机 IP</string>
+    <string name="feat_myip_desc">一键查看当前网络出口 IP 并解析归属</string>
+    <string name="feat_phone_title">号码解析</string>
+    <string name="feat_phone_desc">手机号归属地、运营商、有效性与格式（离线）</string>
+    <string name="feat_username_title">用户名搜索</string>
+    <string name="feat_username_desc">在 %1$d 个站点并发搜索用户名是否存在</string>
+    <string name="home_footer">灵感来源 HunxByts/GhostTrack（非官方移植）\nIP 数据：ipwho.is · 本机 IP：ipify</string>
+
+    <!-- IP 追踪 -->
+    <string name="ip_title">IP 追踪</string>
+    <string name="ip_hint">IP 地址</string>
+    <string name="ip_placeholder">如 8.8.8.8，支持 IPv4 / IPv6</string>
+    <string name="ip_lookup">查询</string>
+    <string name="ip_my_ip">查本机 IP</string>
+    <string name="ip_enter_ip">请输入 IP 地址</string>
+    <string name="ip_lookup_failed">查询失败：%1$s</string>
+    <string name="ip_myip_failed">获取本机 IP 失败：%1$s</string>
+    <string name="ip_result">查询结果</string>
+    <string name="ip_type">类型</string>
+    <string name="ip_country">国家</string>
+    <string name="unknown">未知</string>
+    <string name="ip_city">城市</string>
+    <string name="ip_region">地区</string>
+    <string name="ip_postal">邮编</string>
+    <string name="ip_is_eu">是否欧盟</string>
+    <string name="yes">是</string>
+    <string name="no">否</string>
+    <string name="ip_calling_code">电话区号</string>
+    <string name="ip_capital">首都</string>
+    <string name="ip_borders">接壤</string>
+    <string name="ip_org">组织</string>
+    <string name="ip_isp">ISP</string>
+    <string name="ip_domain">域名</string>
+    <string name="ip_timezone">时区</string>
+    <string name="ip_dst">夏令时</string>
+    <string name="ip_latlon">经纬度</string>
+    <string name="ip_open_map">在地图中打开</string>
+    <string name="copy">复制</string>
+    <string name="ip_quality_title">IP 质量检测</string>
+    <string name="ip_network_type">网络类型</string>
+    <string name="ip_net_datacenter">机房 / 数据中心</string>
+    <string name="ip_net_mobile">移动网络</string>
+    <string name="ip_net_residential">家庭宽带（估算）</string>
+    <string name="ip_proxy">代理/VPN</string>
+    <string name="ip_proxy_yes">是（疑似中转）</string>
+    <string name="ip_native">原生 IP</string>
+    <string name="ip_native_yes">是（估算）</string>
+    <string name="ip_native_no">否（估算）</string>
+    <string name="ip_purity">纯净度</string>
+    <string name="ip_purity_value">%1$d 分 · %2$s（估算）</string>
+    <string name="ip_purity_excellent">优秀</string>
+    <string name="ip_purity_good">良好</string>
+    <string name="ip_purity_fair">一般</string>
+    <string name="ip_purity_poor">较差</string>
+    <string name="ip_quality_note">机房 / 代理 / 原生 / 纯净度均为基于公开标记的估算，仅供参考；数据源 ip-api.com。</string>
+    <string name="ip_quality_failed">质量检测失败：%1$s</string>
+
+    <!-- 号码解析 -->
+    <string name="phone_title">号码解析</string>
+    <string name="phone_hint">电话号码</string>
+    <string name="phone_placeholder">如 +8613800138000 或 13800138000</string>
+    <string name="phone_default_region">默认归属地：%1$s (%2$s)</string>
+    <string name="phone_change">更换</string>
+    <string name="phone_analyze">解析</string>
+    <string name="phone_enter">请输入电话号码</string>
+    <string name="phone_failed">解析失败：%1$s</string>
+    <string name="phone_unparsable">号码无法解析（%1$s）</string>
+    <string name="phone_result">解析结果</string>
+    <string name="phone_valid">有效号码</string>
+    <string name="phone_invalid">无效号码</string>
+    <string name="phone_type">号码类型</string>
+    <string name="phone_carrier">运营商</string>
+    <string name="phone_location">归属地</string>
+    <string name="phone_region">国家/地区</string>
+    <string name="phone_timezone">时区</string>
+    <string name="phone_intl">国际格式</string>
+    <string name="phone_national">国内格式</string>
+    <string name="phone_country_code">国家码</string>
+    <string name="phone_national_number">本地号码</string>
+    <string name="phone_note">基于 Google libphonenumber 离线解析，无需网络，结果仅供参考。</string>
+    <string name="phone_region_title">默认归属地</string>
+    <string name="cancel">取消</string>
+    <string name="region_cn">中国大陆</string>
+    <string name="region_hk">香港</string>
+    <string name="region_tw">台湾</string>
+    <string name="region_mo">澳门</string>
+    <string name="region_us">美国</string>
+    <string name="region_ca">加拿大</string>
+    <string name="region_gb">英国</string>
+    <string name="region_de">德国</string>
+    <string name="region_fr">法国</string>
+    <string name="region_jp">日本</string>
+    <string name="region_kr">韩国</string>
+    <string name="region_sg">新加坡</string>
+    <string name="region_my">马来西亚</string>
+    <string name="region_th">泰国</string>
+    <string name="region_au">澳大利亚</string>
+    <string name="region_id">印尼</string>
+    <string name="phone_type_mobile">移动号码</string>
+    <string name="phone_type_fixed_line">固定电话</string>
+    <string name="phone_type_fixed_line_or_mobile">固话或移动</string>
+    <string name="phone_type_toll_free">免费电话</string>
+    <string name="phone_type_premium_rate">高费率号码</string>
+    <string name="phone_type_shared_cost">分摊话费号码</string>
+    <string name="phone_type_voip">网络电话 (VoIP)</string>
+    <string name="phone_type_personal_number">个人号码</string>
+    <string name="phone_type_pager">寻呼机</string>
+    <string name="phone_type_uan">企业接入号</string>
+    <string name="phone_type_voicemail">语音信箱</string>
+    <string name="phone_type_unknown">未知类型</string>
+
+    <!-- 用户名搜索 -->
+    <string name="username_title">用户名搜索</string>
+    <string name="username_hint">用户名</string>
+    <string name="username_placeholder">如 johndoe123</string>
+    <string name="username_search">搜索</string>
+    <string name="username_found">找到 %1$d 个</string>
+    <string name="username_empty">在 %1$d 个站点并发检查用户名是否存在。\n「未知」表示该站点拦截了自动请求（如反爬），可点进链接手动确认。</string>
+    <string name="status_found">存在</string>
+    <string name="status_not_found">不存在</string>
+    <string name="status_unknown">未知</string>
+
+    <!-- 关于 -->
+    <string name="about_title">关于</string>
+    <string name="about_desc">基于 Material You 的 OSINT 小工具：IP 追踪、号码解析与用户名搜索。</string>
+    <string name="version">版本 %1$s</string>
+    <string name="about_language">语言</string>
+    <string name="lang_system">跟随系统</string>
+    <string name="lang_zh">中文</string>
+    <string name="lang_en">English</string>
+    <string name="about_links">相关链接</string>
+    <string name="about_check_update">检查更新</string>
+    <string name="about_repo">仓库主页</string>
+    <string name="about_homepage">我的主页</string>
+    <string name="about_original">原项目</string>
+    <string name="about_license">开源协议</string>
+    <string name="about_license_text">原项目 HunxByts/GhostTrack 的仓库中未包含 LICENSE 文件，未声明任何开源协议，默认保留所有权利。本应用为非官方移植，所有代码均为重写，仅功能对标原版四个菜单。</string>
+    <string name="about_credits">开源库鸣谢</string>
+    <string name="about_apache">Apache License 2.0</string>
+    <string name="about_sources">数据源</string>
+    <string name="about_sources_text">IP 归属：ipwho.is · 本机 IP：ipify · IP 质量：ip-api.com · 号码元数据：Google libphonenumber</string>
+</resources>

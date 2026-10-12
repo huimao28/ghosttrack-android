@@ -28,7 +28,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.huimao.ghosttrack.R
+import com.huimao.ghosttrack.data.username.USERNAME_SITES
 
 private data class Feature(
     val title: String,
@@ -46,26 +49,26 @@ fun HomeScreen(
 ) {
     val features = listOf(
         Feature(
-            "IP 追踪",
-            "查询任意 IP 的归属地、运营商、ASN 与时区",
+            stringResource(R.string.feat_ip_title),
+            stringResource(R.string.feat_ip_desc),
             Icons.Filled.LocationOn,
             onOpenIp,
         ),
         Feature(
-            "本机 IP",
-            "一键查看当前网络出口 IP 并解析归属",
+            stringResource(R.string.feat_myip_title),
+            stringResource(R.string.feat_myip_desc),
             Icons.Filled.Public,
             onOpenIp,
         ),
         Feature(
-            "号码解析",
-            "手机号归属地、运营商、有效性与格式（离线）",
+            stringResource(R.string.feat_phone_title),
+            stringResource(R.string.feat_phone_desc),
             Icons.Filled.Smartphone,
             onOpenPhone,
         ),
         Feature(
-            "用户名搜索",
-            "在 15 个站点并发搜索用户名是否存在",
+            stringResource(R.string.feat_username_title),
+            stringResource(R.string.feat_username_desc, USERNAME_SITES.size),
             Icons.Filled.PersonSearch,
             onOpenUsername,
         ),
@@ -85,7 +88,7 @@ fun HomeScreen(
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    text = "基于 Material You 的 OSINT 小工具",
+                    text = stringResource(R.string.home_subtitle),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -143,7 +146,7 @@ fun HomeScreen(
         }
         item {
             Text(
-                text = "灵感来源 HunxByts/GhostTrack（非官方移植）\nIP 数据：ipwho.is · 本机 IP：ipify",
+                text = stringResource(R.string.home_footer),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 8.dp),

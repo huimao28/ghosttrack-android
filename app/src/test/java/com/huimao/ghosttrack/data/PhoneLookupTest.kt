@@ -13,7 +13,7 @@ class PhoneLookupTest {
         assertTrue(info.valid)
         assertTrue(info.possible)
         assertEquals("CN", info.regionCode)
-        assertEquals("移动号码", info.typeLabel)
+        assertEquals("mobile", info.typeKey)
         assertEquals("+8613800138000", info.e164)
         assertEquals(86, info.countryCode)
         assertEquals(13800138000L, info.nationalNumber)

@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Bottom navigation -->
+    <string name="nav_home">Home</string>
+    <string name="nav_ip">IP Tracker</string>
+    <string name="nav_phone">Phone Lookup</string>
+    <string name="nav_username">Username</string>
+    <string name="nav_about">About</string>
+
+    <!-- Home -->
+    <string name="home_subtitle">An OSINT toolkit with Material You design</string>
+    <string name="feat_ip_title">IP Tracker</string>
+    <string name="feat_ip_desc">Look up geolocation, ISP, ASN and timezone of any IP</string>
+    <string name="feat_myip_title">My IP</string>
+    <string name="feat_myip_desc">Show your current public IP with geolocation</string>
+    <string name="feat_phone_title">Phone Lookup</string>
+    <string name="feat_phone_desc">Carrier, location, validity and formats (offline)</string>
+    <string name="feat_username_title">Username Search</string>
+    <string name="feat_username_desc">Search a username across %1$d sites concurrently</string>
+    <string name="home_footer">Inspired by HunxByts/GhostTrack (unofficial port)\nIP data: ipwho.is · My IP: ipify</string>
+
+    <!-- IP Tracker -->
+    <string name="ip_title">IP Tracker</string>
+    <string name="ip_hint">IP address</string>
+    <string name="ip_placeholder">e.g. 8.8.8.8 (IPv4/IPv6)</string>
+    <string name="ip_lookup">Look up</string>
+    <string name="ip_my_ip">My IP</string>
+    <string name="ip_enter_ip">Please enter an IP address</string>
+    <string name="ip_lookup_failed">Lookup failed: %1$s</string>
+    <string name="ip_myip_failed">Failed to get your IP: %1$s</string>
+    <string name="ip_result">Result</string>
+    <string name="ip_type">Type</string>
+    <string name="ip_country">Country</string>
+    <string name="unknown">Unknown</string>
+    <string name="ip_city">City</string>
+    <string name="ip_region">Region</string>
+    <string name="ip_postal">Postal code</string>
+    <string name="ip_is_eu">EU member</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="ip_calling_code">Calling code</string>
+    <string name="ip_capital">Capital</string>
+    <string name="ip_borders">Borders</string>
+    <string name="ip_org">Organization</string>
+    <string name="ip_isp">ISP</string>
+    <string name="ip_domain">Domain</string>
+    <string name="ip_timezone">Time zone</string>
+    <string name="ip_dst">Daylight saving</string>
+    <string name="ip_latlon">Coordinates</string>
+    <string name="ip_open_map">Open in Maps</string>
+    <string name="copy">Copy</string>
+    <string name="ip_quality_title">IP Quality</string>
+    <string name="ip_network_type">Network type</string>
+    <string name="ip_net_datacenter">Datacenter</string>
+    <string name="ip_net_mobile">Mobile network</string>
+    <string name="ip_net_residential">Residential broadband (est.)</string>
+    <string name="ip_proxy">Proxy/VPN</string>
+    <string name="ip_proxy_yes">Yes (likely relay)</string>
+    <string name="ip_native">Native IP</string>
+    <string name="ip_native_yes">Yes (est.)</string>
+    <string name="ip_native_no">No (est.)</string>
+    <string name="ip_purity">Purity</string>
+    <string name="ip_purity_value">%1$d pts · %2$s (est.)</string>
+    <string name="ip_purity_excellent">Excellent</string>
+    <string name="ip_purity_good">Good</string>
+    <string name="ip_purity_fair">Fair</string>
+    <string name="ip_purity_poor">Poor</string>
+    <string name="ip_quality_note">Network type, nativeness and purity are heuristic estimates for reference only. Source: ip-api.com.</string>
+    <string name="ip_quality_failed">Quality check failed: %1$s</string>
+
+    <!-- Phone lookup -->
+    <string name="phone_title">Phone Lookup</string>
+    <string name="phone_hint">Phone number</string>
+    <string name="phone_placeholder">e.g. +8613800138000 or 13800138000</string>
+    <string name="phone_default_region">Default region: %1$s (%2$s)</string>
+    <string name="phone_change">Change</string>
+    <string name="phone_analyze">Analyze</string>
+    <string name="phone_enter">Please enter a phone number</string>
+    <string name="phone_failed">Parse failed: %1$s</string>
+    <string name="phone_unparsable">Cannot parse number (%1$s)</string>
+    <string name="phone_result">Result</string>
+    <string name="phone_valid">Valid number</string>
+    <string name="phone_invalid">Invalid number</string>
+    <string name="phone_type">Number type</string>
+    <string name="phone_carrier">Carrier</string>
+    <string name="phone_location">Location</string>
+    <string name="phone_region">Country/region</string>
+    <string name="phone_timezone">Time zone</string>
+    <string name="phone_intl">International format</string>
+    <string name="phone_national">National format</string>
+    <string name="phone_country_code">Country code</string>
+    <string name="phone_national_number">National number</string>
+    <string name="phone_note">Offline analysis via Google libphonenumber. For reference only.</string>
+    <string name="phone_region_title">Default region</string>
+    <string name="cancel">Cancel</string>
+    <string name="region_cn">Mainland China</string>
+    <string name="region_hk">Hong Kong</string>
+    <string name="region_tw">Taiwan</string>
+    <string name="region_mo">Macau</string>
+    <string name="region_us">United States</string>
+    <string name="region_ca">Canada</string>
+    <string name="region_gb">United Kingdom</string>
+    <string name="region_de">Germany</string>
+    <string name="region_fr">France</string>
+    <string name="region_jp">Japan</string>
+    <string name="region_kr">South Korea</string>
+    <string name="region_sg">Singapore</string>
+    <string name="region_my">Malaysia</string>
+    <string name="region_th">Thailand</string>
+    <string name="region_au">Australia</string>
+    <string name="region_id">Indonesia</string>
+    <string name="phone_type_mobile">Mobile</string>
+    <string name="phone_type_fixed_line">Fixed line</string>
+    <string name="phone_type_fixed_line_or_mobile">Fixed line or mobile</string>
+    <string name="phone_type_toll_free">Toll-free</string>
+    <string name="phone_type_premium_rate">Premium rate</string>
+    <string name="phone_type_shared_cost">Shared cost</string>
+    <string name="phone_type_voip">VoIP</string>
+    <string name="phone_type_personal_number">Personal number</string>
+    <string name="phone_type_pager">Pager</string>
+    <string name="phone_type_uan">UAN</string>
+    <string name="phone_type_voicemail">Voicemail</string>
+    <string name="phone_type_unknown">Unknown</string>
+
+    <!-- Username search -->
+    <string name="username_title">Username Search</string>
+    <string name="username_hint">Username</string>
+    <string name="username_placeholder">e.g. johndoe123</string>
+    <string name="username_search">Search</string>
+    <string name="username_found">%1$d found</string>
+    <string name="username_empty">Checks a username across %1$d sites concurrently.\n\"Unknown\" means the site blocked automated checks; tap the link to verify manually.</string>
+    <string name="status_found">Found</string>
+    <string name="status_not_found">Not found</string>
+    <string name="status_unknown">Unknown</string>
+
+    <!-- About -->
+    <string name="about_title">About</string>
+    <string name="about_desc">An OSINT toolkit with Material You design: IP tracking, phone lookup and username search.</string>
+    <string name="version">Version %1$s</string>
+    <string name="about_language">Language</string>
+    <string name="lang_system">Follow system</string>
+    <string name="lang_zh">中文</string>
+    <string name="lang_en">English</string>
+    <string name="about_links">Links</string>
+    <string name="about_check_update">Check for updates</string>
+    <string name="about_repo">Repository</string>
+    <string name="about_homepage">My page</string>
+    <string name="about_original">Original project</string>
+    <string name="about_license">License</string>
+    <string name="about_license_text">The original HunxByts/GhostTrack repository contains no LICENSE file and declares no open-source license; all rights reserved by default. This app is an unofficial port with fully rewritten code, matching only the four menus of the original.</string>
+    <string name="about_credits">Open-source credits</string>
+    <string name="about_apache">Apache License 2.0</string>
+    <string name="about_sources">Data sources</string>
+    <string name="about_sources_text">IP geolocation: ipwho.is · My IP: ipify · IP quality: ip-api.com · Phone metadata: Google libphonenumber</string>
+</resources>

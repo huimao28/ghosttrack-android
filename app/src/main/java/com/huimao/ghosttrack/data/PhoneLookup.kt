@@ -16,7 +16,8 @@ data class PhoneInfo(
     val input: String,
     val valid: Boolean,
     val possible: Boolean,
-    val typeLabel: String,
+    /** 号码类型 key：mobile / fixed_line / …，UI 层映射到多语言文案 */
+    val typeKey: String,
     val carrier: String,
     val regionCode: String,
     val location: String,
@@ -40,7 +41,7 @@ object PhoneLookup {
         val number: Phonenumber.PhoneNumber = try {
             util.parse(raw.trim(), defaultRegion.uppercase())
         } catch (e: NumberParseException) {
-            throw IllegalArgumentException("号码无法解析（${e.errorType}）")
+            throw IllegalArgumentException("unparsable:${e.errorType}")
         }
 
         val carrierMapper = PhoneNumberToCarrierMapper.getInstance()
@@ -55,7 +56,7 @@ object PhoneLookup {
             input = raw.trim(),
             valid = util.isValidNumber(number),
             possible = util.isPossibleNumber(number),
-            typeLabel = typeLabel(util.getNumberType(number)),
+            typeKey = typeKey(util.getNumberType(number)),
             carrier = carrier.ifBlank { "未知" },
             regionCode = util.getRegionCodeForNumber(number) ?: "未知",
             location = locationZh.ifBlank { locationEn }.ifBlank { "未知" },
@@ -68,18 +69,18 @@ object PhoneLookup {
         )
     }
 
-    private fun typeLabel(type: PhoneNumberUtil.PhoneNumberType): String = when (type) {
-        PhoneNumberUtil.PhoneNumberType.MOBILE -> "移动号码"
-        PhoneNumberUtil.PhoneNumberType.FIXED_LINE -> "固定电话"
-        PhoneNumberUtil.PhoneNumberType.FIXED_LINE_OR_MOBILE -> "固话或移动"
-        PhoneNumberUtil.PhoneNumberType.TOLL_FREE -> "免费电话"
-        PhoneNumberUtil.PhoneNumberType.PREMIUM_RATE -> "高费率号码"
-        PhoneNumberUtil.PhoneNumberType.SHARED_COST -> "分摊话费号码"
-        PhoneNumberUtil.PhoneNumberType.VOIP -> "网络电话 (VoIP)"
-        PhoneNumberUtil.PhoneNumberType.PERSONAL_NUMBER -> "个人号码"
-        PhoneNumberUtil.PhoneNumberType.PAGER -> "寻呼机"
-        PhoneNumberUtil.PhoneNumberType.UAN -> "企业接入号"
-        PhoneNumberUtil.PhoneNumberType.VOICEMAIL -> "语音信箱"
-        else -> "未知类型"
+    private fun typeKey(type: PhoneNumberUtil.PhoneNumberType): String = when (type) {
+        PhoneNumberUtil.PhoneNumberType.MOBILE -> "mobile"
+        PhoneNumberUtil.PhoneNumberType.FIXED_LINE -> "fixed_line"
+        PhoneNumberUtil.PhoneNumberType.FIXED_LINE_OR_MOBILE -> "fixed_line_or_mobile"
+        PhoneNumberUtil.PhoneNumberType.TOLL_FREE -> "toll_free"
+        PhoneNumberUtil.PhoneNumberType.PREMIUM_RATE -> "premium_rate"
+        PhoneNumberUtil.PhoneNumberType.SHARED_COST -> "shared_cost"
+        PhoneNumberUtil.PhoneNumberType.VOIP -> "voip"
+        PhoneNumberUtil.PhoneNumberType.PERSONAL_NUMBER -> "personal_number"
+        PhoneNumberUtil.PhoneNumberType.PAGER -> "pager"
+        PhoneNumberUtil.PhoneNumberType.UAN -> "uan"
+        PhoneNumberUtil.PhoneNumberType.VOICEMAIL -> "voicemail"
+        else -> "unknown"
     }
 }
