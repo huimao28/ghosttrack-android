@@ -18,7 +18,8 @@ import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.PersonSearch
 import androidx.compose.material.icons.filled.Public
 import androidx.compose.material.icons.filled.Smartphone
-import androidx.compose.material3.FilledTonalCard
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -92,9 +93,12 @@ fun HomeScreen(
         }
         features.forEach { feature ->
             item {
-                FilledTonalCard(
+                Card(
                     onClick = feature.onClick,
                     modifier = Modifier.fillMaxWidth(),
+                    colors = CardDefaults.cardColors(
+                        containerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    ),
                 ) {
                     Row(
                         modifier = Modifier
