@@ -85,10 +85,10 @@ class SponsorBillingManager(
                     },
                 )
                 .build()
-            billingClient.queryProductDetailsAsync(params) { result, details ->
+            billingClient.queryProductDetailsAsync(params) { result, productDetailsResult ->
                 if (result.responseCode == BillingClient.BillingResponseCode.OK) {
                     val wanted = SponsorTier.allProductIds.toSet()
-                    val ordered = details
+                    val ordered = productDetailsResult.productDetailsList
                         .filter { it.productId in wanted }
                         .sortedBy { SponsorTier.allProductIds.indexOf(it.productId) }
                     postOnMain { onProducts(ordered) }
