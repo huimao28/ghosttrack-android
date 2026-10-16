@@ -100,6 +100,10 @@ fun AboutScreen(modifier: Modifier = Modifier) {
             }
 
             item {
+                SponsorSection()
+            }
+
+            item {
                 SectionCard(title = stringResource(R.string.about_language)) {
                     val options = listOf(
                         LanguageSetting.SYSTEM to stringResource(R.string.lang_system),
@@ -172,6 +176,10 @@ fun AboutScreen(modifier: Modifier = Modifier) {
                     CREDITS.forEach { name ->
                         InfoRow(name, apache)
                     }
+                    InfoRow(
+                        "Google Play Billing Library",
+                        stringResource(R.string.about_billing_license),
+                    )
                 }
             }
 

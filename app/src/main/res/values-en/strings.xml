@@ -152,4 +152,15 @@
     <string name="about_apache">Apache License 2.0</string>
     <string name="about_sources">Data sources</string>
     <string name="about_sources_text">IP geolocation: ipwho.is · My IP: ipify · IP quality: ip-api.com · Phone metadata: Google libphonenumber</string>
+
+    <!-- Sponsor -->
+    <string name="about_sponsor">Sponsor</string>
+    <string name="sponsor_desc">If GhostTrack helps you, consider sponsoring its development ☕ Sponsorships are one-time in-app purchases and can be repeated.</string>
+    <string name="sponsor_coffee">Buy me a coffee</string>
+    <string name="sponsor_lunch">Buy me lunch</string>
+    <string name="sponsor_feast">Buy me a feast</string>
+    <string name="sponsor_thanks">Thanks for your sponsorship!</string>
+    <string name="sponsor_failed">Purchase not completed, please try again later</string>
+    <string name="sponsor_unavailable">Sponsorship is not available yet</string>
+    <string name="about_billing_license">Google Play Terms of Service</string>
 </resources>

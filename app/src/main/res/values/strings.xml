@@ -152,4 +152,15 @@
     <string name="about_apache">Apache License 2.0</string>
     <string name="about_sources">数据源</string>
     <string name="about_sources_text">IP 归属：ipwho.is · 本机 IP：ipify · IP 质量：ip-api.com · 号码元数据：Google libphonenumber</string>
+
+    <!-- 赞助 -->
+    <string name="about_sponsor">赞助</string>
+    <string name="sponsor_desc">如果 GhostTrack 对你有帮助，欢迎赞助支持开发 ☕ 赞助为一次性内购，可重复购买。</string>
+    <string name="sponsor_coffee">请喝咖啡</string>
+    <string name="sponsor_lunch">请吃午餐</string>
+    <string name="sponsor_feast">请吃大餐</string>
+    <string name="sponsor_thanks">感谢你的赞助！</string>
+    <string name="sponsor_failed">购买未完成，请稍后重试</string>
+    <string name="sponsor_unavailable">赞助功能暂未开放</string>
+    <string name="about_billing_license">Google Play 服务条款</string>
 </resources>
