@@ -1,6 +1,7 @@
 package com.huimao.ghosttrack.ui.about
 
 import android.app.Activity
+import android.os.Build
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,6 +21,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.RadioButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
@@ -53,7 +55,11 @@ private val CREDITS = listOf(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AboutScreen(modifier: Modifier = Modifier) {
+fun AboutScreen(
+    dynamicColor: Boolean,
+    onDynamicColorChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+) {
     val context = LocalContext.current
     var lang by remember { mutableStateOf(LanguageSetting.current(context)) }
 
@@ -101,6 +107,40 @@ fun AboutScreen(modifier: Modifier = Modifier) {
 
             item {
                 SponsorSection()
+            }
+
+            item {
+                val supported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
+                SectionCard(title = stringResource(R.string.about_appearance)) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .clickable(enabled = supported) {
+                                onDynamicColorChange(!dynamicColor)
+                            }
+                            .padding(vertical = 4.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                    ) {
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = stringResource(R.string.about_dynamic_color),
+                                style = MaterialTheme.typography.bodyLarge,
+                            )
+                            Text(
+                                text = stringResource(
+                                    if (supported) R.string.about_dynamic_color_desc
+                                    else R.string.about_dynamic_color_unavailable,
+                                ),
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            )
+                        }
+                        Switch(
+                            checked = supported && dynamicColor,
+                            onCheckedChange = if (supported) onDynamicColorChange else null,
+                        )
+                    }
+                }
             }
 
             item {

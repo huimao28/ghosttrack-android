@@ -37,7 +37,10 @@ enum class Dest(val titleRes: Int, val icon: ImageVector) {
 }
 
 @Composable
-fun GhostTrackApp() {
+fun GhostTrackApp(
+    dynamicColor: Boolean,
+    onDynamicColorChange: (Boolean) -> Unit,
+) {
     var dest by rememberSaveable { mutableStateOf(Dest.Home) }
     Scaffold(
         containerColor = androidx.compose.material3.MaterialTheme.colorScheme.background,
@@ -69,7 +72,11 @@ fun GhostTrackApp() {
             Dest.Ip -> IpScreen(modifier = modifier)
             Dest.Phone -> PhoneScreen(modifier = modifier)
             Dest.Username -> UsernameScreen(modifier = modifier)
-            Dest.About -> AboutScreen(modifier = modifier)
+            Dest.About -> AboutScreen(
+                dynamicColor = dynamicColor,
+                onDynamicColorChange = onDynamicColorChange,
+                modifier = modifier,
+            )
         }
     }
 }
