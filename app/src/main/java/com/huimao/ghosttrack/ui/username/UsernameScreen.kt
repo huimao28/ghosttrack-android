@@ -3,6 +3,8 @@ package com.huimao.ghosttrack.ui.username
 import android.os.SystemClock
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -37,6 +39,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
@@ -158,11 +162,13 @@ fun UsernameScreen(
                     label = { Text(stringResource(R.string.username_hint)) },
                     placeholder = { Text(stringResource(R.string.username_placeholder)) },
                     singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii, imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(onSearch = { vm.search(input) }),
                     modifier = Modifier.weight(1f),
                 )
                 Button(
                     onClick = { vm.search(input) },
-                    enabled = !state.searching,
+                    enabled = !state.searching && input.isNotBlank(),
                 ) {
                     Icon(Icons.Filled.Search, contentDescription = null)
                     Text(stringResource(R.string.username_search))
@@ -195,7 +201,7 @@ fun UsernameScreen(
 
             LazyColumn(
                 modifier = Modifier.fillMaxSize(),
-                contentPadding = PaddingValues(vertical = 8.dp),
+                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             ) {
                 items(state.results, key = { it.site.name }) { result ->
                     val style = statusStyle(result.status)
@@ -221,6 +227,9 @@ fun UsernameScreen(
                             )
                         },
                         modifier = Modifier.clickable { context.openUrl(result.url) },
+                        colors = androidx.compose.material3.ListItemDefaults.colors(
+                            containerColor = MaterialTheme.colorScheme.surfaceContainerLow,
+                        ),
                     )
                 }
             }

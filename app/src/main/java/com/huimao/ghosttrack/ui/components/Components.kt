@@ -14,7 +14,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ContentCopy
 import androidx.compose.material3.CardDefaults
@@ -34,6 +34,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalClipboardManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.semantics.ProgressBarRangeInfo
+import androidx.compose.ui.semantics.progressBarRangeInfo
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.huimao.ghosttrack.R
 
@@ -55,17 +58,17 @@ fun InfoRow(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.width(92.dp),
+            modifier = Modifier.widthIn(min = 84.dp, max = 112.dp).weight(0.38f),
         )
         Text(
             text = value,
             style = MaterialTheme.typography.bodyMedium,
-            modifier = Modifier.weight(1f),
+            modifier = Modifier.weight(0.62f),
         )
         if (copyable) {
             IconButton(
                 onClick = { clipboard.setText(AnnotatedString(value)) },
-                modifier = Modifier.size(32.dp),
+                modifier = Modifier.size(48.dp),
             ) {
                 Icon(
                     Icons.Filled.ContentCopy,
@@ -144,7 +147,8 @@ fun PurityBar(
     Canvas(
         modifier = modifier
             .fillMaxWidth()
-            .height(14.dp),
+            .height(14.dp)
+            .semantics { progressBarRangeInfo = ProgressBarRangeInfo(progress, 0f..1f) },
     ) {
         val radius = size.height / 2f
         drawRoundRect(

@@ -15,7 +15,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -37,7 +37,7 @@ enum class Dest(val titleRes: Int, val icon: ImageVector) {
 
 @Composable
 fun GhostTrackApp() {
-    var dest by remember { mutableStateOf(Dest.Home) }
+    var dest by rememberSaveable { mutableStateOf(Dest.Home) }
     Scaffold(
         bottomBar = {
             NavigationBar {
@@ -48,6 +48,7 @@ fun GhostTrackApp() {
                         onClick = { dest = d },
                         icon = { Icon(d.icon, contentDescription = title) },
                         label = { Text(title) },
+                        alwaysShowLabel = dest == d,
                     )
                 }
             }

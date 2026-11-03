@@ -1,6 +1,8 @@
 package com.huimao.ghosttrack.ui.ip
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,6 +28,8 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
@@ -166,6 +170,8 @@ fun IpScreen(
                     label = { Text(stringResource(R.string.ip_hint)) },
                     placeholder = { Text(stringResource(R.string.ip_placeholder)) },
                     singleLine = true,
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Ascii, imeAction = ImeAction.Search),
+                    keyboardActions = KeyboardActions(onSearch = { vm.query(input) }),
                     modifier = Modifier.fillMaxWidth(),
                 )
             }
@@ -173,7 +179,7 @@ fun IpScreen(
                 Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                     Button(
                         onClick = { vm.query(input) },
-                        enabled = !state.loading,
+                        enabled = !state.loading && input.isNotBlank(),
                         modifier = Modifier.weight(1f),
                     ) { Text(stringResource(R.string.ip_lookup)) }
                     OutlinedButton(
