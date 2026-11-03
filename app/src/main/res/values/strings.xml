@@ -8,7 +8,8 @@
     <string name="nav_about">关于</string>
 
     <!-- 主页 -->
-    <string name="home_subtitle">基于 Material You 的 OSINT 小工具</string>
+    <string name="home_subtitle">快速、清晰地完成常用公开信息查询</string>
+    <string name="home_tools">探索工具</string>
     <string name="feat_ip_title">IP 追踪</string>
     <string name="feat_ip_desc">查询任意 IP 的归属地、运营商、ASN 与时区</string>
     <string name="feat_myip_title">本机 IP</string>
@@ -137,6 +138,10 @@
     <string name="about_title">关于</string>
     <string name="about_desc">基于 Material You 的 OSINT 小工具：IP 追踪、号码解析与用户名搜索。</string>
     <string name="version">版本 %1$s</string>
+    <string name="about_appearance">外观</string>
+    <string name="about_dynamic_color">莫奈动态取色</string>
+    <string name="about_dynamic_color_desc">跟随系统壁纸配色，关闭后使用 GhostTrack 品牌色</string>
+    <string name="about_dynamic_color_unavailable">需要 Android 12 或更高版本</string>
     <string name="about_language">语言</string>
     <string name="lang_system">跟随系统</string>
     <string name="lang_zh">中文</string>

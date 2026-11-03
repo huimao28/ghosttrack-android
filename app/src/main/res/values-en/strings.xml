@@ -8,7 +8,8 @@
     <string name="nav_about">About</string>
 
     <!-- Home -->
-    <string name="home_subtitle">An OSINT toolkit with Material You design</string>
+    <string name="home_subtitle">Fast, focused tools for public information lookup</string>
+    <string name="home_tools">Explore tools</string>
     <string name="feat_ip_title">IP Tracker</string>
     <string name="feat_ip_desc">Look up geolocation, ISP, ASN and timezone of any IP</string>
     <string name="feat_myip_title">My IP</string>
@@ -137,6 +138,10 @@
     <string name="about_title">About</string>
     <string name="about_desc">An OSINT toolkit with Material You design: IP tracking, phone lookup and username search.</string>
     <string name="version">Version %1$s</string>
+    <string name="about_appearance">Appearance</string>
+    <string name="about_dynamic_color">Monet dynamic color</string>
+    <string name="about_dynamic_color_desc">Use wallpaper colors; turn off to use GhostTrack colors</string>
+    <string name="about_dynamic_color_unavailable">Requires Android 12 or later</string>
     <string name="about_language">Language</string>
     <string name="lang_system">Follow system</string>
     <string name="lang_zh">中文</string>
