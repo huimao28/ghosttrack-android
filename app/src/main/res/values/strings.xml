@@ -8,7 +8,8 @@
     <string name="nav_about">关于</string>
 
     <!-- 主页 -->
-    <string name="home_subtitle">基于 Material You 的 OSINT 小工具</string>
+    <string name="home_subtitle">快速、清晰地完成常用公开信息查询</string>
+    <string name="home_tools">探索工具</string>
     <string name="feat_ip_title">IP 追踪</string>
     <string name="feat_ip_desc">查询任意 IP 的归属地、运营商、ASN 与时区</string>
     <string name="feat_myip_title">本机 IP</string>

@@ -8,7 +8,8 @@
     <string name="nav_about">About</string>
 
     <!-- Home -->
-    <string name="home_subtitle">An OSINT toolkit with Material You design</string>
+    <string name="home_subtitle">Fast, focused tools for public information lookup</string>
+    <string name="home_tools">Explore tools</string>
     <string name="feat_ip_title">IP Tracker</string>
     <string name="feat_ip_desc">Look up geolocation, ISP, ASN and timezone of any IP</string>
     <string name="feat_myip_title">My IP</string>
