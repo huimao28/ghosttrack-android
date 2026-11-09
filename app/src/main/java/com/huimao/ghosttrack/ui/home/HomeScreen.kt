@@ -13,7 +13,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowOutward
@@ -77,7 +78,9 @@ fun HomeScreen(
                 modifier = Modifier.padding(top = 12.dp, bottom = 2.dp),
             )
         }
-        items(features, key = { it.title }) { feature -> FeatureCard(feature) }
+        itemsIndexed(features, key = { _, feature -> feature.title }) { index, feature ->
+            FeatureCard(feature, index)
+        }
         item {
             Text(
                 text = stringResource(R.string.home_footer),
@@ -97,7 +100,12 @@ private fun HeroPanel() {
             .fillMaxWidth()
             .background(
                 brush = Brush.linearGradient(listOf(colors.primaryContainer, colors.secondaryContainer.copy(alpha = 0.78f))),
-                shape = MaterialTheme.shapes.extraLarge,
+                shape = RoundedCornerShape(
+                    topStart = 40.dp,
+                    topEnd = 40.dp,
+                    bottomEnd = 40.dp,
+                    bottomStart = 14.dp,
+                ),
             )
             .padding(24.dp),
     ) {
@@ -121,11 +129,16 @@ private fun HeroPanel() {
 }
 
 @Composable
-private fun FeatureCard(feature: Feature) {
+private fun FeatureCard(feature: Feature, index: Int) {
+    val shape = if (index % 2 == 0) {
+        RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp, bottomEnd = 10.dp, bottomStart = 28.dp)
+    } else {
+        RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp, bottomEnd = 28.dp, bottomStart = 10.dp)
+    }
     Card(
         onClick = feature.onClick,
         modifier = Modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.large,
+        shape = shape,
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainerLow),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp, pressedElevation = 2.dp),
     ) {

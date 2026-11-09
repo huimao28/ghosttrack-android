@@ -29,7 +29,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -131,7 +131,7 @@ fun UsernameScreen(
     modifier: Modifier = Modifier,
     vm: UsernameViewModel = viewModel(),
 ) {
-    var input by remember { mutableStateOf("") }
+    var input by rememberSaveable { mutableStateOf("") }
     val state = vm.uiState
     val context = LocalContext.current
     val foundCount = state.results.count { it.status == CheckStatus.FOUND }
@@ -158,6 +158,7 @@ fun UsernameScreen(
                     label = { Text(stringResource(R.string.username_hint)) },
                     placeholder = { Text(stringResource(R.string.username_placeholder)) },
                     singleLine = true,
+                    shape = MaterialTheme.shapes.large,
                     modifier = Modifier.weight(1f),
                 )
                 Button(
