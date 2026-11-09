@@ -21,7 +21,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -144,7 +144,7 @@ fun IpScreen(
     modifier: Modifier = Modifier,
     vm: IpViewModel = viewModel(),
 ) {
-    var input by remember { mutableStateOf("") }
+    var input by rememberSaveable { mutableStateOf("") }
     val state = vm.uiState
     val context = LocalContext.current
 
@@ -166,6 +166,7 @@ fun IpScreen(
                     label = { Text(stringResource(R.string.ip_hint)) },
                     placeholder = { Text(stringResource(R.string.ip_placeholder)) },
                     singleLine = true,
+                    shape = MaterialTheme.shapes.large,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

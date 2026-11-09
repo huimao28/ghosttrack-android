@@ -30,7 +30,7 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -156,9 +156,9 @@ fun PhoneScreen(
     modifier: Modifier = Modifier,
     vm: PhoneViewModel = viewModel(),
 ) {
-    var input by remember { mutableStateOf("") }
-    var region by remember { mutableStateOf("CN") }
-    var showPicker by remember { mutableStateOf(false) }
+    var input by rememberSaveable { mutableStateOf("") }
+    var region by rememberSaveable { mutableStateOf("CN") }
+    var showPicker by rememberSaveable { mutableStateOf(false) }
     val state = vm.uiState
 
     if (showPicker) {
@@ -204,6 +204,7 @@ fun PhoneScreen(
                     label = { Text(stringResource(R.string.phone_hint)) },
                     placeholder = { Text(stringResource(R.string.phone_placeholder)) },
                     singleLine = true,
+                    shape = MaterialTheme.shapes.large,
                     modifier = Modifier.fillMaxWidth(),
                 )
             }

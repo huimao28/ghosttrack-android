@@ -1,5 +1,7 @@
 package com.huimao.ghosttrack.ui
 
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
@@ -18,6 +20,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -51,11 +54,26 @@ fun GhostTrackApp(
             ) {
                 Dest.entries.forEach { d ->
                     val title = stringResource(d.titleRes)
+                    val selected = dest == d
+                    val iconScale by animateFloatAsState(
+                        targetValue = if (selected) 1.16f else 1f,
+                        animationSpec = spring(dampingRatio = 0.62f, stiffness = 520f),
+                        label = "navIconScale",
+                    )
                     NavigationBarItem(
-                        selected = dest == d,
+                        selected = selected,
                         onClick = { dest = d },
-                        icon = { Icon(d.icon, contentDescription = title) },
-                        label = { Text(title) },
+                        icon = {
+                            Icon(
+                                d.icon,
+                                contentDescription = title,
+                                modifier = Modifier.graphicsLayer {
+                                    scaleX = iconScale
+                                    scaleY = iconScale
+                                },
+                            )
+                        },
+                        label = { Text(title, maxLines = 1) },
                     )
                 }
             }
