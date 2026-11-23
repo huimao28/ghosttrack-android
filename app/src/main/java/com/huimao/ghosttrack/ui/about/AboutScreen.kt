@@ -41,7 +41,7 @@ import com.huimao.ghosttrack.ui.components.openUrl
 
 private const val URL_RELEASES = "https://github.com/huimao28/ghosttrack-android/releases"
 private const val URL_REPO = "https://github.com/huimao28/ghosttrack-android"
-private const val URL_HOMEPAGE = "https://github.com/huimao28"
+private const val URL_HOMEPAGE = "https://huimaotech.com/"
 private const val URL_ORIGINAL = "https://github.com/HunxByts/GhostTrack"
 
 private val CREDITS = listOf(

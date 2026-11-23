@@ -2,12 +2,17 @@ package com.huimao.ghosttrack.ui.about
 
 import android.app.Activity
 import android.widget.Toast
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.OpenInNew
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
@@ -27,6 +32,9 @@ import com.huimao.ghosttrack.R
 import com.huimao.ghosttrack.billing.SponsorBillingManager
 import com.huimao.ghosttrack.billing.SponsorTier
 import com.huimao.ghosttrack.ui.components.SectionCard
+import com.huimao.ghosttrack.ui.components.openUrl
+
+private const val SPONSOR_URL = "https://huimaotech.com/sponsor/"
 
 /** 关于页「赞助」区：三个档位的一次性内购（可重复购买）。 */
 @Composable
@@ -65,6 +73,22 @@ fun SponsorSection() {
             text = stringResource(R.string.sponsor_desc),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(Modifier.height(12.dp))
+        FilledTonalButton(
+            onClick = { context.openUrl(SPONSOR_URL) },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Row(modifier = Modifier.weight(1f)) {
+                Text(stringResource(R.string.sponsor_web))
+            }
+            Icon(Icons.Filled.OpenInNew, contentDescription = null)
+        }
+        Text(
+            text = stringResource(R.string.sponsor_web_desc),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.padding(horizontal = 4.dp, vertical = 4.dp),
         )
         Spacer(Modifier.height(8.dp))
         when (val list = products) {

@@ -149,7 +149,7 @@
     <string name="about_links">Links</string>
     <string name="about_check_update">Check for updates</string>
     <string name="about_repo">Repository</string>
-    <string name="about_homepage">My page</string>
+    <string name="about_homepage">Huimao Tech website</string>
     <string name="about_original">Original project</string>
     <string name="about_license">License</string>
     <string name="about_license_text">The original HunxByts/GhostTrack repository contains no LICENSE file and declares no open-source license; all rights reserved by default. This app is an unofficial port with fully rewritten code, matching only the four menus of the original.</string>
@@ -164,6 +164,8 @@
     <string name="sponsor_coffee">Buy me a coffee</string>
     <string name="sponsor_lunch">Buy me lunch</string>
     <string name="sponsor_feast">Buy me a feast</string>
+    <string name="sponsor_web">Sponsor on our website</string>
+    <string name="sponsor_web_desc">Supports WeChat Pay, Alipay, and Stripe</string>
     <string name="sponsor_thanks">Thanks for your sponsorship!</string>
     <string name="sponsor_failed">Purchase not completed, please try again later</string>
     <string name="sponsor_unavailable">Sponsorship is not available yet</string>
